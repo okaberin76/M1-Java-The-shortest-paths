@@ -1,4 +1,4 @@
-# TP n°3: Les plsu courts chemins
+# TP n°3: Les plus courts chemins
 # Rapport de BOURGEAUX Maxence, Groupe 1 Master 1 IWOCS
 
 ## Introduction
