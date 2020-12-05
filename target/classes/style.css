@@ -1,0 +1,12 @@
+node {
+    size: 15px;
+    text-size: 15px;
+    text-style: bold;
+    fill-color: green;
+}
+
+edge {
+    size: 1px;
+    text-size: 13px;
+    text-style: bold;
+}
