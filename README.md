@@ -78,11 +78,13 @@ for (Node v : this.graph)
 On peut remarquer qu'ici, le graphe aura des arêtes avec un poids aléatoire de 1 à 100. Pour augmenter ou diminuer ce 
 poids, il faudra simplement changer la valeur de random.
 
+***
+
 ## Question 2. Décrivez l'algorithme que vous avez implémenté et testé.
 
 Voici l'algorithme de Dijkstra vu en cours (diapositive n°9):
 
-![alt_text](Dijkstra.png)
+![alt_text](./Dijkstra.png)
 
 En reprenant cet algorithme, je suis parvenu à créer une méthode DijkstraNaif qui est la suivante:
 
@@ -168,10 +170,12 @@ Côté visuel, l'algorithme propose de colorier en rouge le noeud source, ainsi 
 
 Voici un test de l'algorithme de Dijkstra naïf, avec 10 noeuds de degré moyen égal à 2:
 
-![alt_text](TestDijkstraNaif.png)
+![alt_text](./TestDijkstraNaif.png)
 
 
-![alt_text](TestDijkstraNaif2.png)
+![alt_text](./TestDijkstraNaif2.png)
+
+***
 
 ## Question 3. Décrivez l'algorithme avec lequel vous le comparez (la version de Dijkstra de GraphStream).
 
@@ -218,9 +222,11 @@ Différence → 50 fois plus rapide.
 
 Voici un test de l'algorithme de Dijkstra optimisé, avec 10 noeuds de degré moyen égal à 2:
 
-![alt_text](TestDijkstraOptimise.png)
+![alt_text](./TestDijkstraOptimise.png)
 
-![alt_text](TestDijkstraOptimise2.png)
+![alt_text](./TestDijkstraOptimise2.png)
+
+***
 
 ## Question 4. Décrivez les tests que vous avez fait en justifiant les choix que vous avez fait.
 
