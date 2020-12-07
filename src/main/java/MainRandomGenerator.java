@@ -189,7 +189,7 @@ public class MainRandomGenerator {
      */
     public static void generateFile(int nbNode, int degree, int n) {
         try {
-            File file = new File("fichierResultat" + nbFichier + "-" + nbNode + "-" + degree + ".dat");
+            File file = new File("Results/fichierResultat" + nbFichier + "-" + nbNode + "-" + degree + ".dat");
             FileWriter writer = new FileWriter(file);
 
             for (int i = 1; i <= n; i++) {
@@ -218,7 +218,7 @@ public class MainRandomGenerator {
         double resDijkstraNaif = 0;
 
         try {
-            br = new BufferedReader(new FileReader("fichierResultat" + nbFichier + "-" + nbNode + "-" + degree + ".dat"));
+            br = new BufferedReader(new FileReader("Results/fichierResultat" + nbFichier + "-" + nbNode + "-" + degree + ".dat"));
             while ((sCurrentLine = br.readLine()) != null) {
                 tab = sCurrentLine.split(" ");
                 resDijkstraOpti += Integer.parseInt(tab[0]);

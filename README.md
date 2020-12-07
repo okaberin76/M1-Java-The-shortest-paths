@@ -33,6 +33,7 @@ Voici son implémentation:
 public class MainRandomGenerator {
     private final Graph graph;
     private final int random = 100;
+    private static int nbFichier = 1;
 
     public MainRandomGenerator(int nbNode, int degree) {
         this.graph = new SingleGraph("RandomGenerator");
@@ -331,14 +332,16 @@ graphes aléatoires, il y a parfois des graphes dont la source est à une distan
 d'une grande majorité de sommets. Le temps d'exécution est donc plus ou moins réduit. Mais cela reste quand même
 suffisamment représentatif, à mon avis.
 
-Si l'on regarde ces résultats, on peut constater que l'algorithme de Dijkstra optimisé possède des résultats incroyablement
-efficaces. Du côté de l'algorithme de Dijkstra naïf, il reste efficace pour les tous petits graphes (inférieur à 1 000 
-noeuds), puis le temps d'exécution s'envole, par exemple x27 entre 1 000 et 10 000 noeuds.
-
 Voici maintenant les résultats d'exécution de la deuxième série de tests, avec un degré moyen égal à 3, qui m'a pris 
 cette fois-ci environ 2 heures:
 
 ![Resultat2h](Pictures/Resultat2h.PNG)
+
+Enfin, pour la dernière série de test, je vais pousser au maximum l'algorithme optimisé de Dijkstra pour avoir des résultats
+poussés, mais je ne pourrais pas faire de même pour l'algorithme naïf sous peine de devoir laisser mon ordinateur tourner
+une semaine entière...
+
+![ResultatDijkstraMax](Pictures/ResultatDijkstraMax.PNG)
 
 ***
 
@@ -351,28 +354,41 @@ les résultats qui ne sont pas "fiables":
 
 ![ResultatDijkstra](Pictures/GraphDegre2Dijkstra.PNG)
 
-On remarque que le temps d'exécution de l'algorithme de Dijkstra naif commence à vraiment perdre en "efficacité" à partir
-de 30 000 noeuds. L'algorithme de Dijkstra utilisant le tas de Fibonacci quant à lui augmente de manière constante,
-mais en restant très très faible (= un temps d'exécution très efficace).
-
 J'ai séparé les résultats obtenus en deux graphes, car les valeurs sont tellement écartées que la différence ne serait
 pas visible sur un seul graphe.
 
-Enfin, voici des graphes du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 3:
+Ensuite, voici des graphes du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 3:
 
 ![ResultatDijkstraNaif2](Pictures/GraphDegre3DijkstraNaif.PNG)
 
 ![ResultatDijkstra2](Pictures/GraphDegre3Dijkstra.PNG)
 
-Pour l'algorithme naïf, on peut commencer à distinguer une courbe exponentielle, et imaginer que plus le degré moyen du 
-graphe sera grand, plus la courbe sera exponentielle.
+Enfin, voici un graphe du temps d'exécution moyen de l'algorithme de Dijkstra optimisé pour un graphe ayant un degré 
+moyen égal à 20:
 
-Concernant l'algorithme optimisé, il est quasiment identique à celui de degré moyen égal à 2,environ 100 ms pour 40 000
-noeuds et environ 200 ms pour 80 000 noeuds. Il a une courbe presque linéaire.
+![ResultatDijkstra3](Pictures/GraphDegre20Dijkstra.PNG)
 
 ***
 
 ## Question 6. Expliquez ces résultats en utilisant vos connaissances
+
+Pour les deux premiers graphes, on remarque que le temps d'exécution de l'algorithme de Dijkstra naif commence à vraiment
+perdre en "efficacité" à partir de 30 000 noeuds. 
+
+L'algorithme de Dijkstra utilisant le tas de Fibonacci quant à lui 
+augmente de manière constante, mais en restant très très faible (= un temps d'exécution très efficace).
+
+Pour les deux graphes suivants, on peut commencer à distinguer une courbe exponentielle pour l'algorithme naïf, et imaginer
+que plus le degré moyen du graphe sera grand, plus la courbe sera exponentielle. Il y a quand même une énorme différence
+de temps d'exécution alors que le degré moyen n'a augmenté que de un.
+
+Concernant l'algorithme optimisé, il est quasiment identique à celui de degré moyen égal à 2, environ 100 ms pour 40 000
+noeuds et environ 200 ms pour 80 000 noeuds. Il a une courbe presque linéaire.
+
+Pour finir, l'algorithme de Dijkstra poussé au maximum nous confirme bien l'hypothèse d'une courbe quasi linéaire. En
+effet, même lorsque le degré moyen est très grand (ici 20), la forme de la courbe ne change pas. Pour un degré moyen de 3,
+nous atteignons 300 ms pour 100 000 noeuds, contre environ 875 ms pour un degré moyen de 20. Nous avons multiplé le degré
+moyen par 7 quasiment, et le temps d'exécution a été multiplié par un peu moins de 3.
 
 ***
 
