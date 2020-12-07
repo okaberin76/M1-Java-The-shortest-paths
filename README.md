@@ -15,8 +15,8 @@ Nous allons commencer par consulter la documentation de RandomGenerator qui est 
 Cette librairie propose aussi un algorithme de Dijkstra très efficace, que nous allons tester sur des graphes aléatoirement
 générés par RandomGenerator, puis comparer ces résultats avec une implémentation naïve de l'algorithme de Dijsktra.
 
-Pour cela plusieurs critères de tests seront définis par la suite. Les résultats de ces tests sont consultables dans le 
-fichier ficherResultat.dat.
+Pour cela plusieurs critères de tests seront définis par la suite. Les résultats de ces tests sont consultables dans les 
+différents fichiers .dat situés dans le dossier Results.
 
 Je tiens aussi à préciser que j'utilise la version 2.0 de GraphStream, et que les tests seront effectués sur mon ordinateur
 personnel doté d'un processeur Intel i5-9300H 2.40 GHz.
