@@ -350,7 +350,7 @@ une semaine entière...
 
 ## Question 5. Présentez les résultats obtenus.
 
-Je vais séparer chaque résultat obtenu en deux graphes, car les valeurs sont tellement écartées que la différence ne serait
+Je vais séparer chaque résultat obtenu en deux graphiques, car les valeurs sont tellement écartées que la différence ne serait
 pas visible sur un seul graphique.
 
 Voici des graphiques du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 2, en excluant
