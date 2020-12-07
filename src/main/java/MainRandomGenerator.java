@@ -132,8 +132,7 @@ public class MainRandomGenerator {
      */
     public void Dijkstra(Node source) {
         this.graph.setAttribute("ui.stylesheet", "url('./src/main/resources/style.css')");
-        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result",
-                "length");
+        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result", "length");
 
         /* Calcule les plus courts chemins de la source jusqu'à chaque noeud du graphe */
         dijkstra.init(this.graph);

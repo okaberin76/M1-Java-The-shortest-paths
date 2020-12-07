@@ -271,7 +271,9 @@ public static void generateFile(int nbNode, int degree, int n) {
 ```
 Elle permet de stocker les résultats des temps d'exécution des algorithmes de Dijkstra dans un fichier.dat, ce qui va me
 faciliter le travail pour la création de graphique avec Gnuplot. Le chiffre après le premier "-" indique le nombre de 
-noeuds et le deuxième chiffre indique le degré moyen des noeuds du graphe.
+noeuds et le deuxième chiffre indique le degré moyen des noeuds du graphe. Ce qui nous donne des fichiers de ce type par
+exemple: fichierResultat1-10000-2.dat", qui sont stockés dans le dossier Results, où 10000 est le nombre de noeuds et 2 
+le degré moyen.
 
 Pour cela, la méthode prend en arguments le nombre de noeuds et le degré moyen, car elle va appeler la première méthode
 qui est calculTempsExecution(). Elle prend aussi un troisième argument qui est un entier n. Cet entier correspond tout 
@@ -321,7 +323,8 @@ Je vais donc commencer les tests avec un graphe possédant 1 000 noeuds et de de
 cela 10 fois pour avoir un intervalle un minimum utile. Puis je vais recommencer cette opération, mais cette fois-ci avec
 un degré moyen égal à 3. Je vais ensuite analyser ces résultats et en faire des graphiques pour les comparer.
 
-Je ne vais pas afficher via des images chaque résultat, cependant ils seront tous accessibles dans différents fichier.dat.
+Tous les résultats sont accessibles via les différents fichiers .dat générés. Je ne vais afficher que les temps moyen d'
+exécution et des graphiques illustrant ces temps.
 
 Voici les résultats d'exécution de la première série de tests, avec un degré moyen égal à 2, qui m'a pris 36 minutes:
 
@@ -347,23 +350,23 @@ une semaine entière...
 
 ## Question 5. Présentez les résultats obtenus.
 
-Voici des graphes du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 2, en excluant
+Je vais séparer chaque résultat obtenu en deux graphes, car les valeurs sont tellement écartées que la différence ne serait
+pas visible sur un seul graphique.
+
+Voici des graphiques du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 2, en excluant
 les résultats qui ne sont pas "fiables":
 
 ![ResultatDijkstraNaif](Pictures/GraphDegre2DijkstraNaif.PNG)
 
 ![ResultatDijkstra](Pictures/GraphDegre2Dijkstra.PNG)
 
-J'ai séparé les résultats obtenus en deux graphes, car les valeurs sont tellement écartées que la différence ne serait
-pas visible sur un seul graphe.
-
-Ensuite, voici des graphes du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 3:
+Ensuite, voici des graphiques du temps d'exécution moyen des deux algorithmes pour un graphe ayant un degré moyen égal à 3:
 
 ![ResultatDijkstraNaif2](Pictures/GraphDegre3DijkstraNaif.PNG)
 
 ![ResultatDijkstra2](Pictures/GraphDegre3Dijkstra.PNG)
 
-Enfin, voici un graphe du temps d'exécution moyen de l'algorithme de Dijkstra optimisé pour un graphe ayant un degré 
+Enfin, voici un graphique du temps d'exécution moyen de l'algorithme de Dijkstra optimisé pour un graphe ayant un degré 
 moyen égal à 20:
 
 ![ResultatDijkstra3](Pictures/GraphDegre20Dijkstra.PNG)
@@ -372,15 +375,15 @@ moyen égal à 20:
 
 ## Question 6. Expliquez ces résultats en utilisant vos connaissances
 
-Pour les deux premiers graphes, on remarque que le temps d'exécution de l'algorithme de Dijkstra naif commence à vraiment
-perdre en "efficacité" à partir de 30 000 noeuds. 
+Pour les deux premiers graphiques, on remarque que le temps d'exécution de l'algorithme de Dijkstra naif commence à vraiment
+perdre en "efficacité" à partir de 30 000 noeuds environ. 
 
-L'algorithme de Dijkstra utilisant le tas de Fibonacci quant à lui 
-augmente de manière constante, mais en restant très très faible (= un temps d'exécution très efficace).
+L'algorithme de Dijkstra utilisant le tas de Fibonacci quant à lui augmente de manière constante, mais en restant très 
+très faible (= un temps d'exécution très efficace).
 
-Pour les deux graphes suivants, on peut commencer à distinguer une courbe exponentielle pour l'algorithme naïf, et imaginer
-que plus le degré moyen du graphe sera grand, plus la courbe sera exponentielle. Il y a quand même une énorme différence
-de temps d'exécution alors que le degré moyen n'a augmenté que de un.
+Pour les deux graphiques suivants, on peut commencer à distinguer une courbe exponentielle pour l'algorithme naïf, et 
+imaginer que plus le degré moyen du graphe sera grand, plus la courbe sera exponentielle. Il y a quand même une énorme 
+différence de temps d'exécution alors que le degré moyen n'a augmenté que de un.
 
 Concernant l'algorithme optimisé, il est quasiment identique à celui de degré moyen égal à 2, environ 100 ms pour 40 000
 noeuds et environ 200 ms pour 80 000 noeuds. Il a une courbe presque linéaire.
