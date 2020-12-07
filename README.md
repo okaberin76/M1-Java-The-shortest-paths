@@ -416,11 +416,11 @@ La différence est flagrante !
 ## Conclusion
 
 Ce TP sur les plus courts chemins était très intéressant. Il m'a permis de découvrir un peu plus Graph Stream, notamment
-grâce aux générateurs de graphes (même si ici je n'en utilise qu'un seul, j'ai pu en voir d'autres). 
+grâce aux générateurs de graphes (même si ici, je n'en utilise qu'un seul, j'ai pu en voir d'autres). 
 
 Il m'a aussi permis de revoir les différents algorithmes de Dijkstra, et d'en apprendre plus sur son optimisation avec 
 le tas de Fibonacci, que je ne connaissais pas très bien. 
 
 J'aurais aimé aller un peu plus loin, pousser les comparaisons plus loin, mais le temps d'exécution du programme pour
 effectuer différents tests est beaucoup trop loin. J'ai déjà dû prendre plusieurs heures pour effectuer les différents
-test du TP.
+tests du TP.
