@@ -170,10 +170,10 @@ Côté visuel, l'algorithme propose de colorier en rouge le noeud source, ainsi 
 
 Voici un test de l'algorithme de Dijkstra naïf, avec 10 noeuds de degré moyen égal à 2:
 
-![TestDijkstraNaif](Pictures/TestDijkstraNaif.png)
+![TestDijkstraNaif](Pictures/TestDijkstraNaif.PNG)
 
 
-![TestDijkstraNaif2](Pictures/TestDijkstraNaif2.png)
+![TestDijkstraNaif2](Pictures/TestDijkstraNaif2.PNG)
 
 ***
 
@@ -222,9 +222,9 @@ Différence → 50 fois plus rapide.
 
 Voici un test de l'algorithme de Dijkstra optimisé, avec 10 noeuds de degré moyen égal à 2:
 
-![TestDijkstraOptimise](Pictures/TestDijkstraOptimise.png)
+![TestDijkstraOptimise](Pictures/TestDijkstraOptimise.PNG)
 
-![TestDijkstraOptimise](Pictures/TestDijkstraOptimise2.png)
+![TestDijkstraOptimise](Pictures/TestDijkstraOptimise2.PNG)
 ***
 
 ## Question 4. Décrivez les tests que vous avez fait en justifiant les choix que vous avez fait.
