@@ -6,16 +6,15 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainRandomGenerator {
     private final Graph graph;
+    private final int random = 100;
 
-    /** Génère le Random Graph selon le nombre de noeuds et le degré moyen */
+    /** Génère le Random Graph selon le nombre de noeuds et le degré moyen donnés en argument */
     public MainRandomGenerator(int nbNode, int degree) {
         this.graph = new SingleGraph("RandomGenerator");
         this.graph.setAttribute("ui.stylesheet", "url('./src/main/resources/style.css')");
@@ -30,8 +29,8 @@ public class MainRandomGenerator {
 
         /* Ajoute un poids random à chaque arête du graphe random généré */
         this.graph.edges().forEach(e -> {
-            int random = (int) (Math.random() * 100);
-            e.setAttribute("length", random);
+            int r = (int) (Math.random() * random) + 1;
+            e.setAttribute("length", r);
             e.setAttribute("ui.label", e.getAttribute("length"));
         });
 
@@ -42,36 +41,6 @@ public class MainRandomGenerator {
 
     public Graph getGraph() {
         return this.graph;
-    }
-
-    /** Version optimisée de Dijkstra disponible dans la doc de GraphStream, avec quelques fonctionnalités visuelles supplémentaires */
-    public void Dijkstra(Node source) {
-        this.graph.setAttribute("ui.stylesheet", "url('./src/main/resources/style.css')");
-        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result",
-                "length");
-
-        /* Calcule les plus courts chemins de la source jusqu'à chaque noeud du graphe */
-        dijkstra.init(this.graph);
-        dijkstra.setSource(this.graph.getNode(source.getId()));
-        dijkstra.compute();
-
-        /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque noeud du graphe */
-        /*
-        System.out.println("\nDijkstra optimisé:");
-        for (Node node : this.graph)
-            System.out.printf("%s -> %s: %s%n", dijkstra.getSource(), node, dijkstra.getPathLength(node));
-         */
-
-        /* Colorie en rouge les arêtes des plus courts chemins du graphe */
-        /*
-        for (Edge edge : dijkstra.getTreeEdges())
-            edge.setAttribute("ui.style", "fill-color: red;");
-         */
-
-        /* Affiche le noeud source en rouge */
-        /*
-        source.setAttribute("ui.style", "fill-color: red;");
-         */
     }
 
     /** Version naïve de Dijkstra selon l'algorithme vu en cours */
@@ -87,61 +56,77 @@ public class MainRandomGenerator {
         /* Noeud source qui est à une distance 0 */
         source.setAttribute("result", 0);
 
-        /* On insère source dans la map de priorité */
+        /* On insère source dans la map */
         map.put(source, (Integer) source.getAttribute("result"));
 
         while (!map.isEmpty()) {
             Node u = null;
-            /* Valeur négative car les distances négatives ne sont pas gérées par l'algo */
-            int temp = -1;
+
             /* Début de ExtractMin() qui va trouver la plus petite valeur de priorité stockée dans la map */
-            for (Map.Entry<Node, Integer> entry : map.entrySet()) {
-                if (temp == -1) {
-                    temp = entry.getValue();
-                    u = entry.getKey();
-                } else if (temp > entry.getValue()) {
-                    temp = entry.getValue();
-                    u = entry.getKey();
-                }
-            }
+            for (Map.Entry<Node, Integer> entry : map.entrySet())
+                u = entry.getKey();
             /* On retire le noeud de priorité minimal de la map */
             map.remove(u);
             /* Fin de ExtractMin() */
 
-            /* Pour chaque noeud voisin v du noeud u, on va regarder si  dist(source, v) > dist(source, u) + dist(u, v) */
+            /* Pour chaque noeud voisin v du noeud u, on va regarder si dist(source, v) > dist(source, u) + dist(u, v) */
             for (Edge v : u) {
-                int b = (int) u.getAttribute("result");
-                int c = (int) v.getAttribute("length");
+                int x = (int) u.getAttribute("result");
+                int y = (int) v.getAttribute("length");
 
                 /* Si v n'a jamais été visité, alors sa distance est égale à infini, donc v = dist(source, u) + dist(u, v) */
                 if (v.getOpposite(u).getAttribute("result").equals("Infinity")) {
-                    v.getOpposite(u).setAttribute("result", (b + c));
+                    v.getOpposite(u).setAttribute("result", (x + y));
                     v.getOpposite(u).setAttribute("parent", u);
                     /* Ajout de v et de sa priorité dans la map */
                     map.put(v.getOpposite(u), (Integer) v.getOpposite(u).getAttribute("result"));
+                    /* Colorie en rouge les arêtes des plus courts chemins du graphe */
+                    v.setAttribute("ui.style", "fill-color: red;");
 
-                /* Sinon, v possède déjà une disance, donc on la compare avec dist(source, u) + dist(u, v) */
+                /* Sinon, v possède déjà une distance, donc on la compare avec dist(source, u) + dist(u, v) */
                 } else {
-                    int a = (int) v.getOpposite(u).getAttribute("result");
-                    if (a > b + c) {
-                        v.getOpposite(u).setAttribute("result", (b + c));
+                    int z = (int) v.getOpposite(u).getAttribute("result");
+                    if (z > x + y) {
+                        v.getOpposite(u).setAttribute("result", (x + y));
                         v.getOpposite(u).setAttribute("parent", u);
                         map.put(v.getOpposite(u), (Integer) v.getOpposite(u).getAttribute("result"));
+                        /* Colorie en rouge les arêtes des plus courts chemins du graphe */
+                        v.setAttribute("ui.style", "fill-color: red;");
                     }
                 }
             }
         }
         /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque noeud du graphe */
-        /*
         System.out.println("\nDijkstra naif:");
         for (Node node : graph)
-             System.out.printf("%s -> %s: %s%n", source.getId(), node.getId(), node.getAttribute("result"));
-        */
+            System.out.printf("%s -> %s: %s%n", source.getId(), node.getId(), node.getAttribute("result"));
 
         /* Affiche le noeud source en rouge */
-        /*
         source.setAttribute("ui.style", "fill-color: red;");
-         */
+    }
+
+    /** Version optimisée de Dijkstra disponible dans la doc de GraphStream, avec quelques fonctionnalités visuelles supplémentaires */
+    public void Dijkstra(Node source) {
+        this.graph.setAttribute("ui.stylesheet", "url('./src/main/resources/style.css')");
+        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result",
+                "length");
+
+        /* Calcule les plus courts chemins de la source jusqu'à chaque noeud du graphe */
+        dijkstra.init(this.graph);
+        dijkstra.setSource(this.graph.getNode(source.getId()));
+        dijkstra.compute();
+
+        /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque noeud du graphe */
+        System.out.println("\nDijkstra optimisé:");
+        for (Node node : this.graph)
+            System.out.printf("%s -> %s: %s%n", dijkstra.getSource(), node, dijkstra.getPathLength(node));
+
+        /* Colorie en rouge les arêtes des plus courts chemins du graphe */
+        for (Edge edge : dijkstra.getTreeEdges())
+            edge.setAttribute("ui.style", "fill-color: red;");
+
+        /* Affiche le noeud source en rouge */
+        source.setAttribute("ui.style", "fill-color: red;");
     }
 
     /** Calcule le temps d'exécution des deux algorithmes de Dijkstra */
@@ -168,7 +153,7 @@ public class MainRandomGenerator {
             FileWriter writer = new FileWriter(file);
 
             for (int i = 1; i <= n; i++) {
-                String stringBuilder = String.format("%d %s", i, calculTempsExecution(nbNode, degree)) + "\n";
+                String stringBuilder = String.format("%s", calculTempsExecution(nbNode, degree)) + "\n";
                 writer.write(stringBuilder.replace(",", "."));
             }
             writer.flush();
@@ -178,15 +163,66 @@ public class MainRandomGenerator {
         }
     }
 
+    public static int tempsExecMoyen(int n, int dijkstra) {
+        BufferedReader br = null;
+        String sCurrentLine;
+        String[] tab;
+        int resDijkstraOpti = 0;
+        int resDijkstraNaif = 1;
+
+        try {
+            br = new BufferedReader(new FileReader("fichierResultat.dat"));
+            while ((sCurrentLine = br.readLine()) != null) {
+                tab = sCurrentLine.split(" ");
+                resDijkstraOpti += Integer.parseInt(tab[0]);
+                resDijkstraNaif += Integer.parseInt(tab[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null)
+                    br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        if (dijkstra == 0)
+            return resDijkstraOpti / n;
+        return resDijkstraNaif / n;
+    }
+
     public static void main(String[] args) {
+        System.setProperty("org.graphstream.ui", "swing");
+
+        /* Créer un graphe random avec 10 noeuds et un degré moyen de 2 */
+        MainRandomGenerator rg = new MainRandomGenerator(10, 2);
+
+        /* Test de Dijkstra naif */
+        // rg.DijkstraNaif(rg.getGraph().getNode(0));
+
+        /* Test de Dijkstra optimisé */
+        rg.Dijkstra(rg.getGraph().getNode(0));
+
+        rg.getGraph().display();
+
+        /* Créer un graphe random avec 20 noeuds et un degré moyen de 5 */
+        /*
+        MainRandomGenerator rg2 = new MainRandomGenerator(10, 5);
+        rg2.getGraph().display();
+         */
+
         /* Nombre de noeuds du graphe */
         int nbNode = 10000;
         /* Degré moyen des noeuds du graphe */
         int degree = 5;
         /* Nombre de fois que l'on va tester le temps d'exécution des algorithmes */
         int n = 100;
-
         /* Créer le fichier contenant les résultats */
-        generateFile(nbNode, degree, n);
+        //generateFile(nbNode, degree, n);
+        //System.out.println("Temps d'exécution moyen des algorithmes sur un intervalle de " + n + " pour " + nbNode + " noeuds et un degré moyen de " + degree + ":");
+        //System.out.println("Dijkstra optimisé: " + tempsExecMoyen(n, 0) + " ms");
+        //System.out.println("Dijkstra naif: " + tempsExecMoyen(n, 1) + " ms");
+
     }
 }
