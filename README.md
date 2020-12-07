@@ -26,7 +26,7 @@ personnel doté d'un processeur Intel i5-9300H 2.40 GHz.
 ## Question 1. Commencez par décrire le générateur que vous avez utilisé et ses paramètres.
 
 Ce programme utilise le RandomGenerator proposé par Graph Stream. Il nous permet de générer des graphes aléatoires selon
-un nombre de noeuds (nbNode) et un degré moyen (degree) passés en arguments dans le constructeur.
+un nombre de nœuds (nbNode) et un degré moyen (degree) passés en arguments dans le constructeur.
 Voici son implémentation:
 
 ```java
@@ -50,17 +50,17 @@ public class MainRandomGenerator {
 }
 ```
 
-J'utilise une feuille de style css pour améliorer la visibilité lorsque le graphe est affiché. Les noeuds seront de 
+J'utilise une feuille de style css pour améliorer la visibilité lorsque le graphe est affiché. Les nœuds seront de 
 couleur verte.
 
 RandomGenerator fonctionne de la manière suivante:
 
-Premièrement, on appel begin(), qui va créer un noeud unique dans le graphe. Puis, à chaque appel de gen.nextEvents() via
-une boucle, le programme va ajouter un noeud dans le graphe et le connecter de manière aléatoire aux autres noeuds. Avec
-nbNode, on peut donc choisir le nombre de noeuds total du graphe. Le degré moyen du graphe est déterminé lors de la
+Premièrement, on appel begin(), qui va créer un nœud unique dans le graphe. Puis, à chaque appel de gen.nextEvents() via
+une boucle, le programme va ajouter un nœud dans le graphe et le connecter de manière aléatoire aux autres nœuds. Avec
+nbNode, on peut donc choisir le nombre de nœuds total du graphe. Le degré moyen du graphe est déterminé lors de la
 création du générateur: Generator gen = new RandomGenerator(degree);
 
-J'attribue ensuite un poids aléatoire à chaques arêtes du graphe et les affiche, puis j'affiche avec les noeuds:
+J'attribue ensuite un poids aléatoire à chaques arêtes du graphe et les affiche, puis j'affiche avec les nœuds:
 
 ```java
 /* Ajoute un poids random à chaque arête du graphe random généré */
@@ -70,7 +70,7 @@ this.graph.edges().forEach(e -> {
     e.setAttribute("ui.label", e.getAttribute("length"));
 });
 
-/* Ajoute le nom des noeuds du graphe random généré */
+/* Ajoute le nom des nœuds du graphe random généré */
 for (Node v : this.graph)
     v.setAttribute("ui.label", v.getId());
 ```
@@ -90,15 +90,15 @@ En reprenant cet algorithme, je suis parvenu à créer une méthode DijkstraNaif
 
 ```java
 public void DijkstraNaif(Node source) {
-    /* Liste de priorité des noeuds, chaque noeud du graphe sera associé à une valeur définissant sa priorité */
+    /* Liste de priorité des nœuds, chaque nœud du graphe sera associé à une valeur définissant sa priorité */
     Map<Node, Integer> map = new HashMap<>();
 
-    /* Debut de l'algorithme. Tous les noeuds possèdent une priorité négative et une distance égale à infini car
-       les noeuds n'ont pas encore été parcouru (distance encore inconnue) */
+    /* Debut de l'algorithme. Tous les nœuds possèdent une priorité négative et une distance égale à infini car
+       les nœuds n'ont pas encore été parcouru (distance encore inconnue) */
     for (Node node : this.graph)
         node.setAttribute("result", "Infinity");
 
-    /* Noeud source qui est à une distance 0 */
+    /* nœud source qui est à une distance 0 */
     source.setAttribute("result", 0);
 
     /* On insère source dans la map */
@@ -110,11 +110,11 @@ public void DijkstraNaif(Node source) {
         /* Début de ExtractMin() qui va trouver la plus petite valeur de priorité stockée dans la map */
         for (Map.Entry<Node, Integer> entry : map.entrySet())
             u = entry.getKey();
-        /* On retire le noeud de priorité minimal de la map */
+        /* On retire le nœud de priorité minimal de la map */
         map.remove(u);
         /* Fin de ExtractMin() */
 
-        /* Pour chaque noeud voisin v du noeud u, on va regarder si dist(source, v) > dist(source, u) + dist(u, v) */
+        /* Pour chaque nœud voisin v du nœud u, on va regarder si dist(source, v) > dist(source, u) + dist(u, v) */
         for (Edge v : u) {
             int x = (int) u.getAttribute("result");
             int y = (int) v.getAttribute("length");
@@ -141,33 +141,33 @@ public void DijkstraNaif(Node source) {
             }
         }
     }
-    /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque noeud du graphe */
+    /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque nœud du graphe */
     System.out.println("\nDijkstra naif:");
     for (Node node : graph)
         System.out.printf("%s -> %s: %s%n", source.getId(), node.getId(), node.getAttribute("result"));
 
-    /* Affiche le noeud source en rouge */
+    /* Affiche le nœud source en rouge */
     source.setAttribute("ui.style", "fill-color: red;");
 }
 ```
 
 Cette version de l'algorithme de Dijkstra est en complexité: O[n²] car la map n'est pas triée (sinon O[nm]).
-J'utilise une HashMap pour stocker l'ordre de priorité, c'est à dire la distance entre chaque noeud par rapport au noeud
+J'utilise une HashMap pour stocker l'ordre de priorité, c'est à dire la distance entre chaque nœud par rapport au nœud
 source s.
-Cette map stock des objets de type <Node, Integer>. Ici Node fait référence au noeud en question, et Integer à sa
+Cette map stock des objets de type <Node, Integer>. Ici Node fait référence au nœud en question, et Integer à sa
 priorité / sa distance. Cette map est tout simplement la file f vue en cours.
 
-Comme dans l'algorithme du cours, nous commençons par remplir cette map par le noeud source s. Tant que notre map n'est
-pas vide, l'algorithme va extraire le noeud de priorité minimal, puis va chercher les voisins proches de ce noeud.
-Si ces noeuds possèdent une distance, par rapport au noeud source, supérieure à celle du noeud courant, alors la distance
-est mise à jour. De même si le noeud voisin possède une distance infinie, c'est-à-dire qu'il n'a pas encore été visité.
-Ces deux cas ajoutent le noeud voisin à la file, c'est-à-dire dans notre map.
+Comme dans l'algorithme du cours, nous commençons par remplir cette map par le nœud source s. Tant que notre map n'est
+pas vide, l'algorithme va extraire le nœud de priorité minimal, puis va chercher les voisins proches de ce nœud.
+Si ces nœuds possèdent une distance, par rapport au nœud source, supérieure à celle du nœud courant, alors la distance
+est mise à jour. De même si le nœud voisin possède une distance infinie, c'est-à-dire qu'il n'a pas encore été visité.
+Ces deux cas ajoutent le nœud voisin à la file, c'est-à-dire dans notre map.
 
-L'algorithme termine par afficher dans le terminal les plus courts chemins du noeud source à tous les autres noeuds.
+L'algorithme termine par afficher dans le terminal les plus courts chemins du nœud source à tous les autres nœuds.
 
-Côté visuel, l'algorithme propose de colorier en rouge le noeud source, ainsi que les arêtes des plus courts chemins.
+Côté visuel, l'algorithme propose de colorier en rouge le nœud source, ainsi que les arêtes des plus courts chemins.
 
-Voici un test de l'algorithme de Dijkstra naïf, avec 10 noeuds de degré moyen égal à 2:
+Voici un test de l'algorithme de Dijkstra naïf, avec 10 nœuds de degré moyen égal à 2:
 
 ![TestDijkstraNaif](Pictures/TestDijkstraNaif.PNG)
 
@@ -185,12 +185,12 @@ public void Dijkstra(Node source) {
     this.graph.setAttribute("ui.stylesheet", "url('./src/main/resources/style.css')");
     Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result", "length");
 
-    /* Calcule les plus courts chemins de la source jusqu'à chaque noeud du graphe */
+    /* Calcule les plus courts chemins de la source jusqu'à chaque nœud du graphe */
     dijkstra.init(this.graph);
     dijkstra.setSource(this.graph.getNode(source.getId()));
     dijkstra.compute();
 
-    /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque noeud du graphe */
+    /* Affiche le résultat du calcul des plus courts chemins de la source jusqu'à chaque nœud du graphe */
     System.out.println("\nDijkstra optimisé:");
     for (Node node : this.graph)
         System.out.printf("%s -> %s: %s%n", dijkstra.getSource(), node, dijkstra.getPathLength(node));
@@ -199,7 +199,7 @@ public void Dijkstra(Node source) {
     for (Edge edge : dijkstra.getTreeEdges())
         edge.setAttribute("ui.style", "fill-color: red;");
 
-    /* Affiche le noeud source en rouge */
+    /* Affiche le nœud source en rouge */
     source.setAttribute("ui.style", "fill-color: red;");
 }
 ```
@@ -218,7 +218,7 @@ et m = 10 000:
 
 Différence → 50 fois plus rapide.
 
-Voici un test de l'algorithme de Dijkstra optimisé, avec 10 noeuds de degré moyen égal à 2:
+Voici un test de l'algorithme de Dijkstra optimisé, avec 10 nœuds de degré moyen égal à 2:
 
 ![TestDijkstraOptimise](Pictures/TestDijkstraOptimise.PNG)
 
@@ -248,7 +248,7 @@ public static String calculTempsExecution(int nbNode, int degree) {
     return resultat1 + " " + resultat2;
 }
 ```
-Cette méthode me permet de créer un graphe aléatoire selon le nombre de noeuds et le degré moyen passés en paramètre.
+Cette méthode me permet de créer un graphe aléatoire selon le nombre de nœuds et le degré moyen passés en paramètre.
 Ensuite, elle calcule le temps moyen d'exécution des deux algorithmes de Dijkstra, puis retourne le résultat via un String.
 
 La deuxième méthode est la suivante:
@@ -271,11 +271,11 @@ public static void generateFile(int nbNode, int degree, int n) {
 ```
 Elle permet de stocker les résultats des temps d'exécution des algorithmes de Dijkstra dans un fichier.dat, ce qui va me
 faciliter le travail pour la création de graphique avec Gnuplot. Le chiffre après le premier "-" indique le nombre de 
-noeuds et le deuxième chiffre indique le degré moyen des noeuds du graphe. Ce qui nous donne des fichiers de ce type par
-exemple: fichierResultat1-10000-2.dat", qui sont stockés dans le dossier Results, où 10000 est le nombre de noeuds et 2 
+nœuds et le deuxième chiffre indique le degré moyen des nœuds du graphe. Ce qui nous donne des fichiers de ce type par
+exemple: fichierResultat1-10000-2.dat", qui sont stockés dans le dossier Results, où 10000 est le nombre de nœuds et 2 
 le degré moyen.
 
-Pour cela, la méthode prend en arguments le nombre de noeuds et le degré moyen, car elle va appeler la première méthode
+Pour cela, la méthode prend en arguments le nombre de nœuds et le degré moyen, car elle va appeler la première méthode
 qui est calculTempsExecution(). Elle prend aussi un troisième argument qui est un entier n. Cet entier correspond tout 
 simplement au nombre de fois que l'on veut tester le temps d'exécution des algorithmes.
 
@@ -318,8 +318,8 @@ de l'algorithme naïf ou celui optimisé.
 Concernant les phases de tests, étant donné que mon algorithme de Dijkstra est vraiment très naïf (pas trié), le temps 
 d'exécution va se faire ressentir. 
 
-Je vais donc commencer les tests avec un graphe possédant 1 000 noeuds et de degré moyen égal à 2. Puis je vais passer à
-10 000 noeuds, toujours avec un degré moyen égal à 2, puis 20 000, 30 000 ... jusqu'à 100 000 noeuds. Je vais exécuter 
+Je vais donc commencer les tests avec un graphe possédant 1 000 nœuds et de degré moyen égal à 2. Puis je vais passer à
+10 000 nœuds, toujours avec un degré moyen égal à 2, puis 20 000, 30 000 ... jusqu'à 100 000 nœuds. Je vais exécuter 
 cela 10 fois pour avoir un intervalle un minimum utile. Puis je vais recommencer cette opération, mais cette fois-ci avec
 un degré moyen égal à 3. Je vais ensuite analyser ces résultats et en faire des graphiques pour les comparer.
 
@@ -375,25 +375,52 @@ moyen égal à 20:
 
 ## Question 6. Expliquez ces résultats en utilisant vos connaissances
 
-Pour les deux premiers graphiques, on remarque que le temps d'exécution de l'algorithme de Dijkstra naif commence à vraiment
-perdre en "efficacité" à partir de 30 000 noeuds environ. 
+Pour les deux premiers graphiques, on remarque que le temps d'exécution de l'algorithme de Dijkstra naïf commence à vraiment
+perdre en "efficacité" à partir de 30 000 nœuds environ. 
 
 L'algorithme de Dijkstra utilisant le tas de Fibonacci quant à lui augmente de manière constante, mais en restant très 
 très faible (= un temps d'exécution très efficace).
 
 Pour les deux graphiques suivants, on peut commencer à distinguer une courbe exponentielle pour l'algorithme naïf, et 
 imaginer que plus le degré moyen du graphe sera grand, plus la courbe sera exponentielle. Il y a quand même une énorme 
-différence de temps d'exécution alors que le degré moyen n'a augmenté que de un.
+différence de temps d'exécution alors que le degré moyen n'a augmenté que d'un.
 
 Concernant l'algorithme optimisé, il est quasiment identique à celui de degré moyen égal à 2, environ 100 ms pour 40 000
-noeuds et environ 200 ms pour 80 000 noeuds. Il a une courbe presque linéaire.
+nœuds et environ 200 ms pour 80 000 nœuds. Il a une courbe presque linéaire.
 
-Pour finir, l'algorithme de Dijkstra poussé au maximum nous confirme bien l'hypothèse d'une courbe quasi linéaire. En
+Enfin, l'algorithme de Dijkstra poussé au maximum nous confirme bien l'hypothèse d'une courbe quasiment linéaire. En
 effet, même lorsque le degré moyen est très grand (ici 20), la forme de la courbe ne change pas. Pour un degré moyen de 3,
-nous atteignons 300 ms pour 100 000 noeuds, contre environ 875 ms pour un degré moyen de 20. Nous avons multiplé le degré
+nous atteignons 300 ms pour 100 000 nœuds, contre environ 875 ms pour un degré moyen de 20. Nous avons multiplé le degré
 moyen par 7 quasiment, et le temps d'exécution a été multiplié par un peu moins de 3.
+
+Finalement, on peut déjà expliquer en partie la différence de temps d'exécution entre les deux algorithmes. Si la file
+était triée, le nombre d'exécutions serait déjà beaucoup moins conséquent, et l'on gagnerait pas mal de temps.
+Mais la vraie différence d'optimisation se fait grâce à la différence de complexité, grâce au tas de Fibonacci.
+
+En effet, selon le cours, une liste classique possède une complexité de O[n²]:
+* extractMin() = O[n]
+* add() = O[1]
+
+Quand au tas de Fibonacci, il a une complexité de O[n log(n) + m]:
+* extractMin() = O[log n]
+* add() = O[1]
+
+Par un simple calcul, prenons par exemple n = 10 000 et m = 20 000, nous obtenons:
+* Liste = 100 000 000
+* Tas de Fibonacci = 60 000
+
+La différence est flagrante !
 
 ***
 
 ## Conclusion
 
+Ce TP sur les plus courts chemins était très intéressant. Il m'a permis de découvrir un peu plus Graph Stream, notamment
+grâce aux générateurs de graphes (même si ici je n'en utilise qu'un seul, j'ai pu en voir d'autres). 
+
+Il m'a aussi permis de revoir les différents algorithmes de Dijkstra, et d'en apprendre plus sur son optimisation avec 
+le tas de Fibonacci, que je ne connaissais pas très bien. 
+
+J'aurais aimé aller un peu plus loin, pousser les comparaisons plus loin, mais le temps d'exécution du programme pour
+effectuer différents tests est beaucoup trop loin. J'ai déjà dû prendre plusieurs heures pour effectuer les différents
+test du TP.
